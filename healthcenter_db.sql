@@ -34,7 +34,7 @@ CREATE TABLE `child_information` (
   PRIMARY KEY (`information_id`),
   KEY `postpartum_id` (`postpartum_id`),
   CONSTRAINT `child_information_ibfk_1` FOREIGN KEY (`postpartum_id`) REFERENCES `postpartum` (`postpartum_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,7 +57,7 @@ CREATE TABLE `complaint_lookup` (
   `chief_complaint_id` int NOT NULL AUTO_INCREMENT,
   `complaint` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`chief_complaint_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `consultation_record` (
   CONSTRAINT `consultation_record_ibfk_2` FOREIGN KEY (`worker_id`) REFERENCES `health_worker` (`worker_id`),
   CONSTRAINT `consultation_record_ibfk_3` FOREIGN KEY (`visit_type_id`) REFERENCES `nature_of_visit` (`visit_type_id`),
   CONSTRAINT `consultation_record_ibfk_4` FOREIGN KEY (`transaction_type_id`) REFERENCES `mode_of_transaction` (`transaction_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `diagnosis_lookup` (
   `diagnosis_name` varchar(100) DEFAULT NULL,
   `category` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`diagnosis_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +154,7 @@ CREATE TABLE `diagnosis_record` (
   CONSTRAINT `diagnosis_record_ibfk_2` FOREIGN KEY (`worker_id`) REFERENCES `health_worker` (`worker_id`),
   CONSTRAINT `diagnosis_record_ibfk_3` FOREIGN KEY (`diagnosis_id`) REFERENCES `diagnosis_lookup` (`diagnosis_id`),
   CONSTRAINT `diagnosis_record_ibfk_4` FOREIGN KEY (`record_id`) REFERENCES `consultation_record` (`record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `gravidity_lookup` (
   `gravidity_label` varchar(20) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`gravidity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `health_worker` (
   PRIMARY KEY (`worker_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `health_worker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +234,7 @@ CREATE TABLE `household` (
   PRIMARY KEY (`household_id`),
   KEY `zone_id` (`zone_id`),
   CONSTRAINT `household_ibfk_1` FOREIGN KEY (`zone_id`) REFERENCES `zone` (`zone_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -269,7 +269,7 @@ CREATE TABLE `immunization` (
   CONSTRAINT `immunization_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
   CONSTRAINT `immunization_ibfk_2` FOREIGN KEY (`record_id`) REFERENCES `consultation_record` (`record_id`),
   CONSTRAINT `immunization_ibfk_3` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine_lookup` (`vaccine_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -300,7 +300,7 @@ CREATE TABLE `laboratory_findings` (
   PRIMARY KEY (`finding_id`),
   KEY `record_id` (`record_id`),
   CONSTRAINT `laboratory_findings_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `consultation_record` (`record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +330,7 @@ CREATE TABLE `medication_treatment` (
   PRIMARY KEY (`treatment_id`),
   KEY `medicine_id` (`medicine_id`),
   CONSTRAINT `medication_treatment_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`medicine_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,7 +355,7 @@ CREATE TABLE `medicines` (
   `description` text,
   `expiration_date` date DEFAULT NULL,
   PRIMARY KEY (`medicine_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -378,7 +378,7 @@ CREATE TABLE `mode_of_transaction` (
   `transaction_type_id` int NOT NULL AUTO_INCREMENT,
   `transaction_type` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`transaction_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -401,7 +401,7 @@ CREATE TABLE `nature_of_visit` (
   `visit_type_id` int NOT NULL AUTO_INCREMENT,
   `visit_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`visit_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -425,7 +425,7 @@ CREATE TABLE `parity_lookup` (
   `parity_label` varchar(20) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`parity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -457,7 +457,7 @@ CREATE TABLE `patient` (
   PRIMARY KEY (`patient_id`),
   KEY `household_id` (`household_id`),
   CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`household_id`) REFERENCES `household` (`household_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,7 +480,7 @@ CREATE TABLE `penicillin_lookup` (
   `penicillin_id` int NOT NULL AUTO_INCREMENT,
   `penicillin_given` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`penicillin_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +517,7 @@ CREATE TABLE `postpartum` (
   KEY `prenatal_record_id` (`prenatal_record_id`),
   CONSTRAINT `postpartum_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `consultation_record` (`record_id`),
   CONSTRAINT `postpartum_ibfk_2` FOREIGN KEY (`prenatal_record_id`) REFERENCES `prenatal_record` (`prenatal_record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +560,7 @@ CREATE TABLE `prenatal_record` (
   CONSTRAINT `prenatal_record_ibfk_3` FOREIGN KEY (`parity_id`) REFERENCES `parity_lookup` (`parity_id`),
   CONSTRAINT `prenatal_record_ibfk_4` FOREIGN KEY (`syphilis_id`) REFERENCES `syphilis_lookup` (`syphilis_id`),
   CONSTRAINT `prenatal_record_ibfk_5` FOREIGN KEY (`penicillin_id`) REFERENCES `penicillin_lookup` (`penicillin_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -583,7 +583,7 @@ CREATE TABLE `syphilis_lookup` (
   `syphilis_id` int NOT NULL AUTO_INCREMENT,
   `syphilis_result` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`syphilis_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -608,7 +608,7 @@ CREATE TABLE `system_admin` (
   PRIMARY KEY (`admin_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `system_admin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -632,7 +632,7 @@ CREATE TABLE `user_roles` (
   `role_name` varchar(50) NOT NULL,
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name` (`role_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -661,7 +661,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -685,7 +685,7 @@ CREATE TABLE `vaccine_lookup` (
   `vaccine_name` varchar(100) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`vaccine_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -714,7 +714,7 @@ CREATE TABLE `vitals` (
   PRIMARY KEY (`vital_id`),
   KEY `record_id` (`record_id`),
   CONSTRAINT `vitals_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `consultation_record` (`record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -740,7 +740,7 @@ CREATE TABLE `zone` (
   PRIMARY KEY (`zone_id`),
   KEY `assigned_worker_id` (`assigned_worker_id`),
   CONSTRAINT `zone_ibfk_1` FOREIGN KEY (`assigned_worker_id`) REFERENCES `health_worker` (`worker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

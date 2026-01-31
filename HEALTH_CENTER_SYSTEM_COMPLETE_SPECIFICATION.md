@@ -12,7 +12,9 @@
 ## 1. SYSTEM OVERVIEW
 
 ### 1.1 Purpose
+
 The Health Center Information System is a comprehensive web-based platform designed to manage all aspects of a community health center's operations, including:
+
 - Patient registration and demographic management
 - Consultation and medical records
 - Maternal health management (prenatal and postpartum care tracking)
@@ -25,15 +27,16 @@ The Health Center Information System is a comprehensive web-based platform desig
 
 ### 1.2 Target Users and Roles
 
-| Role | Primary Functions | System Access Level |
-|------|-------------------|---------------------|
-| System Administrator | User management, system configuration, full access | Full CRUD all entities |
-| Health Worker | Patient care, consultations, flexible operations within the establishment | Zone-restricted clinical access |
-| Medical Doctor | Diagnosis, prescriptions, system-wide patient access (infrequent use) | Full clinical access |
-| Viewer/Auditor | Reporting and auditing | Read-only system-wide |
-| Barangay Health Worker | Flexible operations within the establishment | Limited to patient care |
+| Role                   | Primary Functions                                                         | System Access Level             |
+| ---------------------- | ------------------------------------------------------------------------- | ------------------------------- |
+| System Administrator   | User management, system configuration, full access                        | Full CRUD all entities          |
+| Health Worker          | Patient care, consultations, flexible operations within the establishment | Zone-restricted clinical access |
+| Medical Doctor         | Diagnosis, prescriptions, system-wide patient access (infrequent use)     | Full clinical access            |
+| Viewer/Auditor         | Reporting and auditing                                                    | Read-only system-wide           |
+| Barangay Health Worker | Flexible operations within the establishment                              | Limited to patient care         |
 
 ### 1.3 Core Problems Solved
+
 - Centralized patient health records accessible across the health center
 - Efficient prenatal and postpartum care tracking for maternal health programs
 - Immunization schedule management and tracking
@@ -51,19 +54,23 @@ The Health Center Information System is a comprehensive web-based platform desig
 ### 2.1 Core Entity Groups
 
 #### User Management
+
 - `users` - System authentication
 - `user_roles` - Role definitions
 - `system_admin` - Administrator mapping
 - `health_worker` - Health worker profiles
 
 #### Geographic Structure
+
 - `zone` - Geographic zones
 - `household` - Family households
 
 #### Patient Management
+
 - `patient` - Patient demographics and enrollment
 
 #### Clinical Operations
+
 - `consultation_record` - Visit records
 - `vitals` - Vital signs
 - `diagnosis_record` - Diagnoses
@@ -71,15 +78,18 @@ The Health Center Information System is a comprehensive web-based platform desig
 - `immunization` - Vaccination records
 
 #### Maternal Health
+
 - `prenatal_record` - Prenatal care
 - `postpartum` - Postpartum care
 - `child_information` - Newborn data
 
 #### Medication
+
 - `medicines` - Medicine inventory
 - `medication_treatment` - Prescriptions
 
 #### Lookup Tables (30+ tables)
+
 - Visit types, transaction modes, diagnoses, vaccines
 - Gravidity, parity, syphilis results, etc.
 
@@ -107,7 +117,9 @@ postpartum (1) ---- (*) child_information
 ### 3.1 Role-Based Access Control (RBAC)
 
 #### Administrator (Full Access)
+
 **Permissions:**
+
 - All CRUD operations
 - User management
 - System configuration
@@ -116,11 +128,14 @@ postpartum (1) ---- (*) child_information
 - Database operations
 
 **Restrictions:**
+
 - Additional authentication for sensitive operations
 - All actions logged
 
 #### Health Worker (Zone-Restricted)
+
 **Permissions:**
+
 - Patient registration (within assigned zones)
 - Consultation records (create, read, update own)
 - Vitals recording (same-day updates)
@@ -131,13 +146,16 @@ postpartum (1) ---- (*) child_information
 - Lab results viewing
 
 **Restrictions:**
+
 - Zone-based patient access
 - Cannot delete medical records
 - Cannot modify records beyond 24-hour window
 - No administrative functions
 
 #### Medical Doctor (Full Clinical Access)
+
 **Permissions:**
+
 - System-wide patient access
 - All clinical operations
 - Complex prescriptions
@@ -146,24 +164,30 @@ postpartum (1) ---- (*) child_information
 - Complete medical history access
 
 **Restrictions:**
+
 - No administrative functions
 - Cannot delete records
 - All decisions logged
 
 #### Viewer/Auditor (Read-Only Access)
+
 **Permissions:**
+
 - View all patient records
 - View consultation records
 - View immunization records
 - Access system logs
 
 **Restrictions:**
+
 - Cannot modify any data
 - No access to sensitive operations
 - No patient registration or scheduling
 
 #### Barangay Health Worker (Limited Clinical Access)
+
 **Permissions:**
+
 - Patient registration (limited fields)
 - Consultation records (view only)
 - Vitals recording
@@ -171,6 +195,7 @@ postpartum (1) ---- (*) child_information
 - Referral creation (limited)
 
 **Restrictions:**
+
 - No access to sensitive data (e.g., financial, administrative)
 - Cannot delete or modify records
 - Limited to assigned barangay
@@ -178,6 +203,7 @@ postpartum (1) ---- (*) child_information
 ### 3.2 Authentication Strategy
 
 **Method:** JWT-based authentication
+
 - Access tokens: 8-hour expiration
 - Refresh tokens: 30-day expiration
 - Password hashing: bcrypt (cost factor 12)
@@ -186,6 +212,7 @@ postpartum (1) ---- (*) child_information
 - MFA: Optional for admins, recommended for all
 
 **Token Structure:**
+
 ```json
 {
   "user_id": 15,
@@ -215,20 +242,23 @@ postpartum (1) ---- (*) child_information
 
 **Backend:** LAMP Stack (Linux, Apache, MySQL, PHP)
 **Frontend:**
+
 - Simple features: HTML5, CSS3, Bootstrap 5
 - Complex features: React (for dynamic and interactive components)
-**Validation:** PHP built-in validation or custom validators
-**Documentation:** PHPDoc
-**Testing:** PHPUnit
-**Logging:** Monolog
+  **Validation:** PHP built-in validation or custom validators
+  **Documentation:** PHPDoc
+  **Testing:** PHPUnit
+  **Logging:** Monolog
 
 **Alternative Stacks:**
+
 - Symfony (PHP) - Enterprise-grade, strong typing
 - CodeIgniter (PHP) - Lightweight, fast development
 
 ### 4.2 API Design Principles
 
 **RESTful Architecture**
+
 - Resource-based URLs
 - HTTP methods (GET, POST, PUT, DELETE)
 - Status codes (200, 201, 400, 401, 403, 404, 500)
@@ -236,6 +266,7 @@ postpartum (1) ---- (*) child_information
 - API versioning (/api/v1/)
 
 **Endpoint Categories:**
+
 1. Authentication & Authorization
 2. User Management
 3. Patient Management
@@ -248,6 +279,7 @@ postpartum (1) ---- (*) child_information
 ### 4.3 Key API Endpoints
 
 #### Authentication
+
 ```
 POST   /api/v1/auth/login
 POST   /api/v1/auth/logout
@@ -257,6 +289,7 @@ PUT    /api/v1/auth/change-password
 ```
 
 #### Patients
+
 ```
 GET    /api/v1/patients
 GET    /api/v1/patients/:id
@@ -268,6 +301,7 @@ GET    /api/v1/patients/:id/history
 ```
 
 #### Consultations
+
 ```
 POST   /api/v1/consultations
 GET    /api/v1/consultations/:id
@@ -278,6 +312,7 @@ POST   /api/v1/consultations/:id/lab-findings
 ```
 
 #### Maternal Health
+
 ```
 POST   /api/v1/consultations/:id/prenatal
 GET    /api/v1/patients/:id/prenatal
@@ -286,6 +321,7 @@ GET    /api/v1/prenatal/due-visits
 ```
 
 #### Immunization
+
 ```
 POST   /api/v1/patients/:id/immunizations
 GET    /api/v1/patients/:id/immunizations
@@ -295,6 +331,7 @@ GET    /api/v1/immunizations/due
 ### 4.4 Validation Strategy
 
 **Multi-Layer Validation:**
+
 1. **Schema Validation** - Joi/Yup at route level
 2. **Business Logic** - Service layer validation
 3. **Database Constraints** - Foreign keys, unique constraints
@@ -302,20 +339,21 @@ GET    /api/v1/immunizations/due
 
 **Example Validation Rules:**
 
-| Field | Rules |
-|-------|-------|
-| Names | 2-50 chars, alphabetic + spaces/hyphens |
-| Email | Valid format, max 100 chars |
-| Phone | 10-15 digits |
-| Dates | Valid date, context-appropriate (past/future) |
+| Field          | Rules                                            |
+| -------------- | ------------------------------------------------ |
+| Names          | 2-50 chars, alphabetic + spaces/hyphens          |
+| Email          | Valid format, max 100 chars                      |
+| Phone          | 10-15 digits                                     |
+| Dates          | Valid date, context-appropriate (past/future)    |
 | Blood Pressure | "systolic/diastolic" format, range 60-300/40-200 |
-| Weight | Decimal(5,2), range 0.5-500 kg |
-| Height | Decimal(5,2), range 20-250 cm |
-| Temperature | Decimal(4,2), range 32-45°C |
+| Weight         | Decimal(5,2), range 0.5-500 kg                   |
+| Height         | Decimal(5,2), range 20-250 cm                    |
+| Temperature    | Decimal(4,2), range 32-45°C                      |
 
 ### 4.5 Error Handling
 
 **Standardized Error Response:**
+
 ```json
 {
   "success": false,
@@ -334,6 +372,7 @@ GET    /api/v1/immunizations/due
 ```
 
 **Error Categories:**
+
 - 400 Bad Request - Validation errors
 - 401 Unauthorized - Authentication required
 - 403 Forbidden - Insufficient permissions
@@ -386,7 +425,9 @@ src/
 ### 5.3 Key Pages & Features
 
 #### Dashboard (`/dashboard`)
+
 **Components:**
+
 - Statistics cards (patients, consultations, immunizations)
 - Recent activity feed
 - Quick action buttons
@@ -395,6 +436,7 @@ src/
 #### Patient Management
 
 **Patient List (`/patients`)**
+
 - Search and filter functionality
 - Sortable table (enrollment ID, name, age, zone, last visit)
 - Pagination
@@ -402,6 +444,7 @@ src/
 - Export to CSV
 
 **Patient Detail (`/patients/:id`)**
+
 - Tabbed interface:
   - Demographics
   - Consultation History
@@ -412,6 +455,7 @@ src/
   - Maternal Health (if applicable)
 
 **Patient Registration (`/patients/new`)**
+
 - Multi-section form:
   - Personal information
   - Contact details
@@ -423,6 +467,7 @@ src/
 #### Consultation Management
 
 **New Consultation (`/consultations/new`)**
+
 - Patient selection (search/scan)
 - Visit type and transaction mode
 - Vitals recording
@@ -435,6 +480,7 @@ src/
 - Referral creation
 
 **Consultation Detail (`/consultations/:id`)**
+
 - Complete consultation record
 - Vitals display (with trend charts)
 - Diagnosis list
@@ -445,6 +491,7 @@ src/
 #### Maternal Health
 
 **Prenatal Care (`/maternal/prenatal`)**
+
 - List of pregnant patients
 - Due dates and AOG calculation
 - Visit tracking (4+ visits)
@@ -452,6 +499,7 @@ src/
 - Scheduled visit reminders
 
 **Prenatal Record Form**
+
 - LMP and EDC calculation
 - Gravidity and parity
 - Fundic height tracking
@@ -462,6 +510,7 @@ src/
 - Next visit scheduling
 
 **Postpartum Care (`/maternal/postpartum`)**
+
 - Recent deliveries list
 - 24-hour and 1-week visit tracking
 - Mother and baby danger signs
@@ -472,12 +521,14 @@ src/
 #### Immunization Management
 
 **Immunization Schedule (`/immunization/schedule`)**
+
 - Patient list with due immunizations
 - Vaccine type and dose number
 - Due dates and overdue alerts
 - Batch administration interface
 
 **Immunization Record Form**
+
 - Patient selection
 - Vaccine selection (dropdown)
 - Dose number
@@ -493,20 +544,20 @@ src/
 ### 6.1 Patient Registration Flow
 
 ```
-Clerk → Patient Registration Form → Validation → 
-API Request → Backend Validation → Database Insert → 
-Generate Enrollment ID → Return Patient Record → 
+Clerk → Patient Registration Form → Validation →
+API Request → Backend Validation → Database Insert →
+Generate Enrollment ID → Return Patient Record →
 Display Confirmation → Print ID Card (optional)
 ```
 
 ### 6.2 Consultation Flow
 
 ```
-Health Worker → Patient Search → Select Patient → 
-New Consultation → Record Vitals → Document Complaints → 
-Examination → Diagnosis Entry → Treatment Plan → 
-Prescription (if needed) → Lab Orders (if needed) → 
-Follow-up Schedule → Save Consultation → 
+Health Worker → Patient Search → Select Patient →
+New Consultation → Record Vitals → Document Complaints →
+Examination → Diagnosis Entry → Treatment Plan →
+Prescription (if needed) → Lab Orders (if needed) →
+Follow-up Schedule → Save Consultation →
 Generate Summary → Print/Email (optional)
 ```
 
@@ -515,28 +566,28 @@ Generate Summary → Print/Email (optional)
 ```
 First Visit:
 Patient → Registration → Consultation → Prenatal Record Creation →
-LMP Entry → EDC Calculation → Risk Assessment → 
-Initial Tests (Syphilis, Blood Type, etc.) → 
+LMP Entry → EDC Calculation → Risk Assessment →
+Initial Tests (Syphilis, Blood Type, etc.) →
 Iron/Vitamin Supplementation → Education → Next Visit Schedule
 
 Follow-up Visits:
 Patient → Check-in → Vitals → Fundic Height → Fetal Heart Tone →
-Update Prenatal Record → Address Concerns → 
+Update Prenatal Record → Address Concerns →
 Supplementation → Education → Next Visit Schedule
 
 Delivery:
-Prenatal Record → Labor Monitoring → Delivery → 
-Postpartum Record Creation → Newborn Information → 
+Prenatal Record → Labor Monitoring → Delivery →
+Postpartum Record Creation → Newborn Information →
 Immediate Postpartum Care → 24-Hour Visit Schedule
 ```
 
 ### 6.4 Immunization Flow
 
 ```
-Patient Arrival → Check Immunization History → 
-Identify Due Vaccines → Verify Contraindications → 
-Prepare Vaccine → Administer → Record Administration → 
-Calculate Next Dose → Schedule Follow-up → 
+Patient Arrival → Check Immunization History →
+Identify Due Vaccines → Verify Contraindications →
+Prepare Vaccine → Administer → Record Administration →
+Calculate Next Dose → Schedule Follow-up →
 Provide Parent Education → Issue Certificate (if complete)
 ```
 
@@ -556,6 +607,7 @@ Result Notification → Provider Review → Patient Communication
 ### 7.1 Security Requirements
 
 **Data Security:**
+
 - All sensitive data encrypted at rest (AES-256)
 - TLS 1.3 for data in transit
 - Password hashing with bcrypt (cost factor 12+)
@@ -564,6 +616,7 @@ Result Notification → Provider Review → Patient Communication
 - CSRF protection (tokens for state-changing operations)
 
 **Access Control:**
+
 - Role-based access control (RBAC)
 - Principle of least privilege
 - Session timeout (8 hours for access tokens)
@@ -571,6 +624,7 @@ Result Notification → Provider Review → Patient Communication
 - Account lockout after failed login attempts
 
 **Audit & Compliance:**
+
 - Comprehensive audit trail (who, what, when, where)
 - Immutable audit logs
 - Regular security audits
@@ -578,6 +632,7 @@ Result Notification → Provider Review → Patient Communication
 - Data privacy regulations compliance (GDPR, local laws)
 
 **Backup & Recovery:**
+
 - Daily automated database backups
 - Off-site backup storage
 - Point-in-time recovery capability
@@ -587,6 +642,7 @@ Result Notification → Provider Review → Patient Communication
 ### 7.2 Performance Requirements
 
 **Response Time:**
+
 - Page load: < 2 seconds
 - API response: < 500ms (simple queries)
 - Search results: < 1 second
@@ -594,11 +650,13 @@ Result Notification → Provider Review → Patient Communication
 - Complex queries: < 3 seconds
 
 **Throughput:**
+
 - Support 100 concurrent users
 - Handle 1000 requests per minute
 - Database: 500 transactions per second
 
 **Scalability:**
+
 - Horizontal scaling for application servers
 - Database read replicas for reporting
 - Load balancing for high availability
@@ -607,17 +665,20 @@ Result Notification → Provider Review → Patient Communication
 ### 7.3 Reliability & Availability
 
 **Uptime:**
+
 - 99.5% availability (target)
 - Planned maintenance windows (off-peak hours)
 - Graceful degradation for non-critical features
 
 **Error Handling:**
+
 - User-friendly error messages
 - Detailed error logging (server-side)
 - Automatic error reporting
 - Retry mechanisms for transient failures
 
 **Data Integrity:**
+
 - Database transactions (ACID compliance)
 - Foreign key constraints
 - Data validation at multiple layers
@@ -626,6 +687,7 @@ Result Notification → Provider Review → Patient Communication
 ### 7.4 Maintainability
 
 **Code Quality:**
+
 - Consistent coding standards
 - Comprehensive code documentation
 - Unit test coverage > 80%
@@ -633,6 +695,7 @@ Result Notification → Provider Review → Patient Communication
 - Code review process
 
 **Architecture:**
+
 - Modular design
 - Clear separation of concerns
 - Loose coupling, high cohesion
@@ -640,6 +703,7 @@ Result Notification → Provider Review → Patient Communication
 - Design patterns application
 
 **Documentation:**
+
 - API documentation (Swagger/OpenAPI)
 - Database schema documentation
 - Deployment guides
@@ -649,6 +713,7 @@ Result Notification → Provider Review → Patient Communication
 ### 7.5 Usability
 
 **User Interface:**
+
 - Intuitive navigation
 - Consistent design language
 - Helpful error messages
@@ -656,6 +721,7 @@ Result Notification → Provider Review → Patient Communication
 - Keyboard shortcuts for power users
 
 **Accessibility:**
+
 - WCAG 2.1 AA compliance
 - Screen reader compatible
 - Keyboard navigation
@@ -663,6 +729,7 @@ Result Notification → Provider Review → Patient Communication
 - Scalable text (responsive to browser zoom)
 
 **Internationalization:**
+
 - Multi-language support framework
 - Date/time localization
 - Number format localization
@@ -671,6 +738,7 @@ Result Notification → Provider Review → Patient Communication
 ### 7.6 Logging & Monitoring
 
 **Application Logging:**
+
 - Structured logging (JSON format)
 - Log levels (ERROR, WARN, INFO, DEBUG)
 - Request/response logging
@@ -678,6 +746,7 @@ Result Notification → Provider Review → Patient Communication
 - User activity tracking
 
 **System Monitoring:**
+
 - Server health monitoring
 - Database performance monitoring
 - API endpoint monitoring
@@ -691,6 +760,7 @@ Result Notification → Provider Review → Patient Communication
 ### 8.1 Environment Configuration
 
 **Development Environment:**
+
 - Local development setup
 - Mock data seeding
 - Hot reload/live reload
@@ -698,6 +768,7 @@ Result Notification → Provider Review → Patient Communication
 - Verbose logging
 
 **Staging Environment:**
+
 - Production-like configuration
 - Anonymized production data
 - Integration testing
@@ -705,6 +776,7 @@ Result Notification → Provider Review → Patient Communication
 - Performance testing
 
 **Production Environment:**
+
 - Optimized build
 - Error logging (no verbose)
 - Security hardening
@@ -714,6 +786,7 @@ Result Notification → Provider Review → Patient Communication
 ### 8.2 Technology Requirements
 
 **Backend Server:**
+
 - OS: Ubuntu 20.04+ or CentOS 8+
 - Node.js: 18+ LTS (or Python 3.10+, PHP 8.1+)
 - Memory: 4GB minimum, 8GB recommended
@@ -721,6 +794,7 @@ Result Notification → Provider Review → Patient Communication
 - Storage: 50GB minimum (plus database storage)
 
 **Database Server:**
+
 - MySQL 8.0+ or PostgreSQL 13+
 - Memory: 8GB minimum, 16GB recommended
 - CPU: 4 cores minimum
@@ -728,6 +802,7 @@ Result Notification → Provider Review → Patient Communication
 - RAID configuration for data protection
 
 **Web Server:**
+
 - Nginx 1.20+ or Apache 2.4+
 - Reverse proxy configuration
 - SSL/TLS certificate
@@ -737,6 +812,7 @@ Result Notification → Provider Review → Patient Communication
 ### 8.3 Database Migrations
 
 **Migration Strategy:**
+
 - Version-controlled migration scripts
 - Up and down migrations
 - Automated deployment process
@@ -744,6 +820,7 @@ Result Notification → Provider Review → Patient Communication
 - Data migration for schema changes
 
 **Example Migration Tool:**
+
 - Sequelize migrations (Node.js)
 - Alembic (Python/Django)
 - Laravel migrations (PHP)
@@ -752,6 +829,7 @@ Result Notification → Provider Review → Patient Communication
 ### 8.4 Environment Variables
 
 **Required Configuration:**
+
 ```bash
 # Application
 NODE_ENV=production
@@ -798,14 +876,16 @@ SMS_API_URL=https://sms.provider.com/api
 ### 8.5 Deployment Process
 
 **CI/CD Pipeline:**
+
 ```
-Code Commit → Automated Tests → Build → 
-Quality Checks → Staging Deployment → 
-Manual Approval → Production Deployment → 
+Code Commit → Automated Tests → Build →
+Quality Checks → Staging Deployment →
+Manual Approval → Production Deployment →
 Health Checks → Rollback (if issues)
 ```
 
 **Deployment Steps:**
+
 1. Pull latest code from repository
 2. Install dependencies (`npm install --production`)
 3. Run database migrations
@@ -816,6 +896,7 @@ Health Checks → Rollback (if issues)
 8. Monitor error logs
 
 **Recommended Tools:**
+
 - Git for version control
 - GitHub Actions, GitLab CI, or Jenkins for CI/CD
 - Docker for containerization (optional but recommended)
@@ -825,12 +906,14 @@ Health Checks → Rollback (if issues)
 ### 8.6 Hosting Recommendations
 
 **On-Premise:**
+
 - Full control over infrastructure
 - Compliance with data residency requirements
 - Higher upfront cost
 - Requires IT staff for maintenance
 
 **Cloud Hosting:**
+
 - AWS: EC2, RDS, S3, CloudFront
 - Azure: Virtual Machines, Azure Database, Blob Storage
 - Google Cloud: Compute Engine, Cloud SQL, Cloud Storage
@@ -839,6 +922,7 @@ Health Checks → Rollback (if issues)
 - Pay-as-you-go pricing
 
 **Recommended Configuration (Cloud):**
+
 - Application: 2x t3.medium EC2 instances (or equivalent)
 - Database: RDS MySQL t3.large with Multi-AZ
 - Load Balancer: Application Load Balancer
@@ -853,6 +937,7 @@ Health Checks → Rollback (if issues)
 ### 9.1 Reporting & Analytics
 
 **Standard Reports:**
+
 - Daily consultation summary
 - Monthly patient registration statistics
 - Disease surveillance (top diagnoses)
@@ -865,12 +950,14 @@ Health Checks → Rollback (if issues)
 - Zone-based health statistics
 
 **Report Formats:**
+
 - PDF (for printing and archiving)
 - Excel/CSV (for data analysis)
 - Interactive dashboards
 - Scheduled email delivery
 
 **Analytics Features:**
+
 - Trend analysis (consultations, diagnoses over time)
 - Predictive analytics (immunization due dates, medicine reorder)
 - Geospatial analysis (disease distribution by zone)
@@ -879,6 +966,7 @@ Health Checks → Rollback (if issues)
 ### 9.2 Export Functionality
 
 **Data Export:**
+
 - Patient lists (CSV, Excel)
 - Consultation records (PDF, CSV)
 - Laboratory results (PDF)
@@ -887,6 +975,7 @@ Health Checks → Rollback (if issues)
 - Medical summary reports (PDF)
 
 **Bulk Operations:**
+
 - Batch patient import (CSV upload)
 - Batch vaccine administration recording
 - Bulk SMS notifications
@@ -895,6 +984,7 @@ Health Checks → Rollback (if issues)
 ### 9.3 Audit Trail
 
 **Comprehensive Logging:**
+
 - User login/logout events
 - All CRUD operations on patient data
 - Consultation record changes
@@ -904,6 +994,7 @@ Health Checks → Rollback (if issues)
 - User management actions
 
 **Audit Log Structure:**
+
 ```json
 {
   "audit_id": 12345,
@@ -913,8 +1004,8 @@ Health Checks → Rollback (if issues)
   "entity": "patient",
   "entity_id": 101,
   "changes": {
-    "before": {"residential_address": "Old Address"},
-    "after": {"residential_address": "New Address"}
+    "before": { "residential_address": "Old Address" },
+    "after": { "residential_address": "New Address" }
   },
   "ip_address": "192.168.1.100",
   "timestamp": "2026-01-27T10:30:00Z"
@@ -922,6 +1013,7 @@ Health Checks → Rollback (if issues)
 ```
 
 **Audit Capabilities:**
+
 - Search and filter audit logs
 - User activity reports
 - Data change history
@@ -931,6 +1023,7 @@ Health Checks → Rollback (if issues)
 ### 9.4 Soft Deletes
 
 **Implementation:**
+
 - Add `deleted_at` timestamp column to all tables
 - Add `deleted_by` user ID column
 - Filter `WHERE deleted_at IS NULL` in all queries
@@ -939,6 +1032,7 @@ Health Checks → Rollback (if issues)
 - Periodic archiving of deleted records
 
 **Benefits:**
+
 - Data recovery capability
 - Maintain referential integrity
 - Audit trail preservation
@@ -947,6 +1041,7 @@ Health Checks → Rollback (if issues)
 ### 9.5 System Configuration
 
 **Configuration Tables:**
+
 - Health center information (name, address, logo)
 - System-wide settings (date format, time zone)
 - Notification settings (SMS, email templates)
@@ -954,6 +1049,7 @@ Health Checks → Rollback (if issues)
 - Lookup value management
 
 **Admin Interface:**
+
 - System settings page
 - Lookup table management
 - User role configuration
@@ -964,6 +1060,7 @@ Health Checks → Rollback (if issues)
 ### 9.6 Notification System
 
 **Notification Types:**
+
 - Appointment reminders (SMS, email)
 - Immunization due alerts
 - Prenatal visit reminders
@@ -972,12 +1069,14 @@ Health Checks → Rollback (if issues)
 - System alerts (maintenance, errors)
 
 **Channels:**
+
 - In-app notifications
 - Email notifications
 - SMS notifications (if budget allows)
 - Push notifications (mobile app)
 
 **Implementation:**
+
 - Background job queue (Bull, Agenda, or Celery)
 - Scheduled tasks (cron jobs)
 - Event-driven notifications (on consultation completion, lab result entry)
@@ -986,6 +1085,7 @@ Health Checks → Rollback (if issues)
 ### 9.7 Mobile Application
 
 **Native Mobile App (iOS/Android):**
+
 - React Native or Flutter
 - Offline-first architecture (sync when online)
 - Barcode scanning (patient enrollment ID, medicine barcode)
@@ -994,6 +1094,7 @@ Health Checks → Rollback (if issues)
 - Digital signature (for consent forms)
 
 **Progressive Web App (PWA):**
+
 - Installable on mobile devices
 - Offline capability with service workers
 - Push notifications
@@ -1002,6 +1103,7 @@ Health Checks → Rollback (if issues)
 ### 9.8 Telemedicine Integration
 
 **Video Consultation:**
+
 - WebRTC-based video calls
 - Screen sharing for image review
 - Chat functionality
@@ -1009,6 +1111,7 @@ Health Checks → Rollback (if issues)
 - Integration with consultation records
 
 **Remote Monitoring:**
+
 - Integration with wearable devices
 - Patient-reported outcomes
 - Remote vital sign submission
@@ -1017,22 +1120,26 @@ Health Checks → Rollback (if issues)
 ### 9.9 Third-Party Integrations
 
 **National Health Systems:**
+
 - National patient registry integration
 - National immunization registry
 - Disease surveillance reporting
 - Health information exchange
 
 **Laboratory Systems:**
+
 - Laboratory Information System (LIS) integration
 - Automated result retrieval
 - Bidirectional interface
 
 **Pharmacy Systems:**
+
 - Prescription transmission to external pharmacies
 - Medication reconciliation
 - Drug interaction checking
 
 **Health Insurance:**
+
 - Insurance verification
 - Claims submission
 - Reimbursement tracking
@@ -1040,12 +1147,14 @@ Health Checks → Rollback (if issues)
 ### 9.10 Advanced Features
 
 **AI/ML Capabilities:**
+
 - Diagnosis suggestion based on symptoms
 - Risk stratification (prenatal, chronic disease)
 - Medication error prevention
 - Image analysis (X-rays, lab images)
 
 **Clinical Decision Support:**
+
 - Drug-drug interaction alerts
 - Allergy checking
 - Dosage recommendations
@@ -1053,6 +1162,7 @@ Health Checks → Rollback (if issues)
 - Evidence-based treatment suggestions
 
 **Patient Portal:**
+
 - Patient self-registration
 - Appointment booking
 - Medical record access
@@ -1065,7 +1175,9 @@ Health Checks → Rollback (if issues)
 ## 10. IMPLEMENTATION ROADMAP
 
 ### Phase 1: Core System (Months 1-3)
+
 **Priority: Critical**
+
 - User authentication and authorization
 - Patient registration and management
 - Consultation records
@@ -1074,13 +1186,16 @@ Health Checks → Rollback (if issues)
 - User management (admin functions)
 
 **Deliverables:**
+
 - Functional authentication system
 - Patient CRUD operations
 - Consultation workflow
 - Basic reporting
 
 ### Phase 2: Clinical Modules (Months 4-6)
+
 **Priority: High**
+
 - Laboratory findings module
 - Medication and prescription management
 - Immunization tracking
@@ -1088,13 +1203,16 @@ Health Checks → Rollback (if issues)
 - Enhanced reporting
 
 **Deliverables:**
+
 - Complete clinical workflow
 - Laboratory integration
 - Pharmacy module
 - Immunization schedules
 
 ### Phase 3: Maternal Health (Months 7-9)
+
 **Priority: High**
+
 - Prenatal care module
 - Postpartum care module
 - Child information tracking
@@ -1102,13 +1220,16 @@ Health Checks → Rollback (if issues)
 - Risk assessment tools
 
 **Deliverables:**
+
 - Complete maternal health workflow
 - Prenatal/postpartum tracking
 - Newborn records
 - Maternal health reports
 
 ### Phase 4: Advanced Features (Months 10-12)
+
 **Priority: Medium**
+
 - Advanced reporting and analytics
 - Notification system
 - Audit trail enhancements
@@ -1117,13 +1238,16 @@ Health Checks → Rollback (if issues)
 - Security hardening
 
 **Deliverables:**
+
 - Comprehensive reporting
 - Automated notifications
 - System optimization
 - Security audit completion
 
 ### Phase 5: Optional Enhancements (Months 13+)
+
 **Priority: Low**
+
 - Mobile application
 - Telemedicine features
 - AI/ML capabilities
@@ -1131,6 +1255,7 @@ Health Checks → Rollback (if issues)
 - Patient portal
 
 **Deliverables:**
+
 - Based on budget and requirements
 - Phased rollout approach
 
@@ -1139,6 +1264,7 @@ Health Checks → Rollback (if issues)
 ## 11. SUCCESS METRICS
 
 ### 11.1 Technical Metrics
+
 - System uptime: 99.5%+
 - API response time: < 500ms (95th percentile)
 - Page load time: < 2 seconds
@@ -1146,12 +1272,14 @@ Health Checks → Rollback (if issues)
 - Test coverage: > 80%
 
 ### 11.2 User Metrics
+
 - User adoption rate: > 90% within 6 months
 - Daily active users: > 80% of staff
 - Average session duration: 2-4 hours (working day)
 - User satisfaction score: > 4/5
 
 ### 11.3 Operational Metrics
+
 - Reduced patient registration time: 50% decrease
 - Consultation documentation time: 30% decrease
 - Improved data accuracy: < 1% error rate
@@ -1159,6 +1287,7 @@ Health Checks → Rollback (if issues)
 - Paper usage reduction: 80% decrease
 
 ### 11.4 Clinical Metrics
+
 - Prenatal care compliance: > 70% (4+ visits)
 - Immunization coverage: > 90% per vaccine
 - Follow-up appointment adherence: > 80%
@@ -1171,33 +1300,33 @@ Health Checks → Rollback (if issues)
 
 ### 12.1 Technical Risks
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| Data loss | Critical | Low | Daily backups, RAID configuration, disaster recovery |
-| Security breach | Critical | Medium | Security audits, penetration testing, encryption |
-| Performance degradation | High | Medium | Load testing, scalability planning, monitoring |
-| Integration failures | Medium | Medium | Thorough testing, fallback mechanisms, error handling |
-| Technology obsolescence | Medium | Low | Modern, well-supported technologies, upgrade path |
+| Risk                    | Impact   | Probability | Mitigation                                            |
+| ----------------------- | -------- | ----------- | ----------------------------------------------------- |
+| Data loss               | Critical | Low         | Daily backups, RAID configuration, disaster recovery  |
+| Security breach         | Critical | Medium      | Security audits, penetration testing, encryption      |
+| Performance degradation | High     | Medium      | Load testing, scalability planning, monitoring        |
+| Integration failures    | Medium   | Medium      | Thorough testing, fallback mechanisms, error handling |
+| Technology obsolescence | Medium   | Low         | Modern, well-supported technologies, upgrade path     |
 
 ### 12.2 Operational Risks
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| User resistance | High | High | Training, change management, user involvement |
-| Insufficient training | High | Medium | Comprehensive training program, ongoing support |
-| Data migration errors | Critical | Medium | Thorough testing, phased migration, validation |
-| Inadequate internet | High | Medium | Offline capabilities, local caching, mobile data |
-| Staff turnover | Medium | Medium | Documentation, knowledge transfer, intuitive design |
+| Risk                  | Impact   | Probability | Mitigation                                          |
+| --------------------- | -------- | ----------- | --------------------------------------------------- |
+| User resistance       | High     | High        | Training, change management, user involvement       |
+| Insufficient training | High     | Medium      | Comprehensive training program, ongoing support     |
+| Data migration errors | Critical | Medium      | Thorough testing, phased migration, validation      |
+| Inadequate internet   | High     | Medium      | Offline capabilities, local caching, mobile data    |
+| Staff turnover        | Medium   | Medium      | Documentation, knowledge transfer, intuitive design |
 
 ### 12.3 Project Risks
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| Scope creep | High | High | Clear requirements, change control process |
-| Budget overrun | High | Medium | Phased approach, regular budget reviews |
-| Timeline delays | Medium | Medium | Realistic scheduling, buffer time, agile methodology |
-| Resource availability | Medium | Medium | Early team commitment, cross-training |
-| Stakeholder alignment | Medium | Low | Regular communication, stakeholder involvement |
+| Risk                  | Impact | Probability | Mitigation                                           |
+| --------------------- | ------ | ----------- | ---------------------------------------------------- |
+| Scope creep           | High   | High        | Clear requirements, change control process           |
+| Budget overrun        | High   | Medium      | Phased approach, regular budget reviews              |
+| Timeline delays       | Medium | Medium      | Realistic scheduling, buffer time, agile methodology |
+| Resource availability | Medium | Medium      | Early team commitment, cross-training                |
+| Stakeholder alignment | Medium | Low         | Regular communication, stakeholder involvement       |
 
 ---
 
@@ -1206,6 +1335,7 @@ Health Checks → Rollback (if issues)
 ### 13.1 Ongoing Maintenance
 
 **Routine Tasks:**
+
 - Database optimization (monthly)
 - Log rotation and archiving (weekly)
 - Security patch application (as released)
@@ -1213,6 +1343,7 @@ Health Checks → Rollback (if issues)
 - Performance monitoring (continuous)
 
 **Periodic Updates:**
+
 - Software dependency updates (quarterly)
 - Feature enhancements (as prioritized)
 - Bug fixes (as reported)
@@ -1222,11 +1353,13 @@ Health Checks → Rollback (if issues)
 ### 13.2 Support Structure
 
 **Support Tiers:**
+
 1. **Tier 1:** Help desk (user questions, basic troubleshooting)
 2. **Tier 2:** Technical support (application issues, data corrections)
 3. **Tier 3:** Development team (bugs, enhancements, system issues)
 
 **Support Channels:**
+
 - In-app help/documentation
 - Email support
 - Phone support (for critical issues)
@@ -1234,6 +1367,7 @@ Health Checks → Rollback (if issues)
 - Knowledge base/FAQ
 
 **Response Times:**
+
 - Critical (system down): 1 hour
 - High (major feature unavailable): 4 hours
 - Medium (minor issue, workaround available): 1 business day
@@ -1242,6 +1376,7 @@ Health Checks → Rollback (if issues)
 ### 13.3 Training Program
 
 **Initial Training:**
+
 - System overview (all users)
 - Role-specific training (by user role)
 - Hands-on practice with test environment
@@ -1249,6 +1384,7 @@ Health Checks → Rollback (if issues)
 - Competency assessment
 
 **Ongoing Training:**
+
 - New feature training (as deployed)
 - Refresher courses (annually)
 - Advanced user training (power users)
@@ -1272,18 +1408,21 @@ The Health Center Information System provides a comprehensive, scalable solution
 ### 14.2 Key Benefits
 
 **For Health Workers:**
+
 - Streamlined documentation
 - Quick access to patient history
 - Clinical decision support
 - Reduced administrative burden
 
 **For Administrators:**
+
 - Real-time operational insights
 - Compliance monitoring
 - Resource allocation optimization
 - Data-driven decision making
 
 **For Patients:**
+
 - Improved care quality
 - Reduced wait times
 - Better health outcomes
@@ -1309,6 +1448,7 @@ The Health Center Information System provides a comprehensive, scalable solution
 ### Appendix A: Database Schema Enhancements
 
 **Recommended Additional Tables:**
+
 1. `audit_log` - Comprehensive audit trail
 2. `notifications` - System notifications
 3. `appointments` - Appointment scheduling (separate from schedule)
@@ -1316,6 +1456,7 @@ The Health Center Information System provides a comprehensive, scalable solution
 5. `file_attachments` - Document and image storage metadata
 
 **Recommended Schema Modifications:**
+
 - Add `created_at`, `updated_at`, `deleted_at` to all tables
 - Add `created_by`, `updated_by`, `deleted_by` to all tables
 - Add unique constraint on `patient.patient_enrollment_id`
@@ -1327,6 +1468,7 @@ The Health Center Information System provides a comprehensive, scalable solution
 Total Endpoints: 100+
 
 **Breakdown by Module:**
+
 - Authentication: 7 endpoints
 - User Management: 8 endpoints
 - Patient Management: 12 endpoints
@@ -1345,16 +1487,19 @@ Total Endpoints: 100+
 ### Appendix C: Technology Alternatives
 
 **Backend:**
+
 - Node.js/Express (Primary recommendation)
 - Laravel/PHP (Rapid development alternative)
 
 **Frontend:**
+
 - React (Primary recommendation)
 - Vue.js (Easier learning curve)
 - Angular (Enterprise, comprehensive)
 - Svelte (Performance-focused)
 
 **Database:**
+
 - MySQL (Current choice)
 - MariaDB (MySQL compatible)
 - Microsoft SQL Server (Enterprise)
@@ -1362,18 +1507,21 @@ Total Endpoints: 100+
 ### Appendix D: Compliance Considerations
 
 **Data Privacy:**
+
 - Patient consent management
 - Data access logging
 - Data retention policies
 - Right to be forgotten (data deletion)
 
 **Healthcare Regulations:**
+
 - Local health ministry requirements
 - Data residency regulations
 - Medical record retention periods
 - Reporting obligations
 
 **Security Standards:**
+
 - HIPAA (if applicable in jurisdiction)
 - ISO 27001 (Information Security Management)
 - SOC 2 (Service Organization Control)

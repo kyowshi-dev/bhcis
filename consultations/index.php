@@ -2,12 +2,14 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
+/*
+ Fetch recent consultations
+*/
 $stmt = $pdo->query("
     SELECT 
         c.record_id,
         c.date_of_consultation,
         c.consultation_time,
-        c.name_of_attending_provider,
         p.last_name,
         p.first_name,
         nv.visit_type
@@ -18,6 +20,7 @@ $stmt = $pdo->query("
 ");
 $consultations = $stmt->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -10,7 +10,6 @@ $record_id = (int) $_GET['id'];
 
 /* ===============================
    CORE CONSULTATION
-=============================== */
 $stmt = $pdo->prepare("
     SELECT c.*, 
            p.first_name, p.last_name,
@@ -31,14 +30,12 @@ if (!$consultation) {
 
 /* ===============================
    VITALS
-=============================== */
 $vitals = $pdo->prepare("SELECT * FROM vitals WHERE record_id = ?");
 $vitals->execute([$record_id]);
 $vitals = $vitals->fetch();
 
 /* ===============================
    DIAGNOSES
-=============================== */
 $diagnoses = $pdo->prepare("
     SELECT d.diagnosis_name, dr.remarks
     FROM diagnosis_record dr
@@ -50,7 +47,6 @@ $diagnoses = $diagnoses->fetchAll();
 
 /* ===============================
    MEDICATIONS
-=============================== */
 $meds = $pdo->query("
     SELECT m.medicine_name, t.dosage, t.frequency, t.duration
     FROM medication_treatment t

@@ -73,3 +73,5 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </tr>
 <?php endif; ?>
 </table>
+</div>
+</div>
